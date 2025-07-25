@@ -1,30 +1,20 @@
-# 步骤1: 使用阿里云官方仓库的Ubuntu镜像作为基础
-# 我们更换基础镜像来绕开alinux仓库的权限问题
-FROM registry.cn-hangzhou.aliyuncs.com/ubuntu/ubuntu:20.04
+# 步骤1: 使用Docker官方中国区镜像作为基础
+# 这是最后的尝试，旨在绕开阿里云内部仓库的权限问题
+FROM registry.docker-cn.com/library/python:3.9-slim
 
-# 步骤2: 在这个基础系统上，安装Python和pip
-# 使用apt-get作为包管理器，这是Ubuntu的标配
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    apt-get clean
-
-# 步骤3: 创建一个软链接，让系统默认的python命令指向python3
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
-# --- 后续步骤与之前相同 ---
-
-# 步骤4: 在容器内创建一个工作目录
+# 步骤2: 在容器内创建一个工作目录
 WORKDIR /app
 
-# 步骤5: 复制依赖文件并安装依赖库
+# 步骤3: 复制依赖文件并安装依赖库
 COPY requirements.txt .
+# 继续使用阿里云的pip源来加速库的下载
 RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
-# 步骤6: 将我们应用的所有文件复制到容器的工作目录中
+# 步骤4: 将我们应用的所有文件复制到容器的工作目录中
 COPY . .
 
-# 步骤7: 暴露容器的端口
+# 步骤5: 暴露容器的端口
 EXPOSE 5000
 
-# 步骤8: 定义容器启动时要执行的命令
+# 步骤6: 定义容器启动时要执行的命令
 CMD ["gunicorn", "--workers", "2", "--bind", "0.0.0.0:5000", "app:app"]
