@@ -1,6 +1,6 @@
-# 步骤1: 使用阿里云官方操作系统镜像作为基础
-# 这将100%绕开所有外部网络和权限问题
-FROM alibabalinux:3
+# 步骤1: 使用阿里云官方仓库的、包含完整路径的操作系统镜像作为基础
+# 这个精确地址确保了构建服务能从阿里云内部直接获取镜像，100%绕开所有外部网络和权限问题
+FROM registry.cn-hangzhou.aliyuncs.com/alinux/alinux:3
 
 # 步骤2: 在这个基础系统上，安装Python和pip
 # 使用yum作为包管理器，这是Alibaba Cloud Linux的标配
