@@ -1,12 +1,12 @@
-# 步骤1: 使用阿里云官方仓库的、包含完整路径的操作系统镜像作为基础
-# 这个精确地址确保了构建服务能从阿里云内部直接获取镜像，100%绕开所有外部网络和权限问题
-FROM registry.cn-hangzhou.aliyuncs.com/alinux/alinux:3
+# 步骤1: 使用阿里云官方仓库的Ubuntu镜像作为基础
+# 我们更换基础镜像来绕开alinux仓库的权限问题
+FROM registry.cn-hangzhou.aliyuncs.com/ubuntu/ubuntu:20.04
 
 # 步骤2: 在这个基础系统上，安装Python和pip
-# 使用yum作为包管理器，这是Alibaba Cloud Linux的标配
-RUN yum update -y && \
-    yum install -y python3 python3-pip && \
-    yum clean all
+# 使用apt-get作为包管理器，这是Ubuntu的标配
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip && \
+    apt-get clean
 
 # 步骤3: 创建一个软链接，让系统默认的python命令指向python3
 RUN ln -s /usr/bin/python3 /usr/bin/python
