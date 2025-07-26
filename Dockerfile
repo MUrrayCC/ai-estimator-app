@@ -1,6 +1,6 @@
 # 步骤1: 从您自己的阿里云ACR私有仓库中获取Python基础镜像
 # 这个精确的内部地址100%保证了构建的成功
-FROM registry.cn-guangzhou.aliyuncs.com/my-appss/python:3.9-slim
+FROM crpi-7dywunjxi6hjzhrz.cn-guangzhou.personal.cr.aliyuncs.com/my-appss/python
 
 
 # 步骤2: 在容器内创建一个工作目录
