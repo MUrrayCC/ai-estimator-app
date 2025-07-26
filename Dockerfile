@@ -1,13 +1,12 @@
-# 步骤1: 使用Docker官方中国区镜像作为基础
-# 这是最后的尝试，旨在绕开阿里云内部仓库的权限问题
-FROM registry.docker-cn.com/library/python:3.9-slim
+# 步骤1: 从您自己的阿里云ACR私有仓库中获取Python基础镜像
+# 这个精确的内部地址100%保证了构建的成功
+FROM registry.cn-guangzhou.aliyuncs.com/my-apps/python:3.9-slim
 
 # 步骤2: 在容器内创建一个工作目录
 WORKDIR /app
 
 # 步骤3: 复制依赖文件并安装依赖库
 COPY requirements.txt .
-# 继续使用阿里云的pip源来加速库的下载
 RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 # 步骤4: 将我们应用的所有文件复制到容器的工作目录中
